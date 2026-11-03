@@ -1,0 +1,184 @@
+:root {
+  --bg: #05060a;
+  --fg: #eef1ff;
+  --muted: #9aa3c7;
+  --glass: rgba(18, 22, 40, 0.72);
+  --line: rgba(255, 255, 255, 0.12);
+  --accent: #3ae0ff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font: 15px/1.5 system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+
+#c {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 影片要留在畫面上(iOS 隱藏後可能停止更新),但看不見 */
+#video {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  opacity: 0;
+  pointer-events: none;
+  left: 0;
+  top: 0;
+}
+
+#preview {
+  position: fixed;
+  left: 12px;
+  bottom: calc(64px + env(safe-area-inset-bottom));
+  width: 112px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #000;
+}
+
+button {
+  font: inherit;
+  color: var(--fg);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+button:active { transform: scale(0.97); }
+
+#hud {
+  position: fixed;
+  top: calc(10px + env(safe-area-inset-top));
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+  max-width: calc(100% - 80px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+#dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #666;
+  flex: none;
+}
+#dot.ok { background: #4cff9a; box-shadow: 0 0 8px #4cff9a; }
+#dot.warn { background: #ffc857; }
+#dot.err { background: #ff5a7a; }
+
+#gear {
+  position: fixed;
+  top: calc(8px + env(safe-area-inset-top));
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 20px;
+}
+
+#scenes {
+  position: fixed;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+#scenes button {
+  background: transparent;
+  border: 0;
+  padding: 7px 16px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+#scenes button.on {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--fg);
+}
+
+#panel {
+  position: fixed;
+  top: calc(56px + env(safe-area-inset-top));
+  right: 12px;
+  width: min(320px, calc(100% - 24px));
+  max-height: calc(100% - 140px);
+  overflow: auto;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  touch-action: pan-y;
+}
+#panel[hidden] { display: none; }
+#panel h2 { margin: 0 0 8px; font-size: 16px; }
+#panel label { display: block; margin: 10px 0; font-size: 13px; color: var(--muted); }
+#panel label.row { display: flex; align-items: center; gap: 8px; }
+#panel output { color: var(--fg); font-variant-numeric: tabular-nums; }
+#panel input[type="range"] { width: 100%; accent-color: var(--accent); }
+#panel .wide { width: 100%; margin: 4px 0; font-size: 13px; }
+#panel .btns { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+#panel .btns button { font-size: 13px; }
+#panel .hint { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
+
+#intro {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: radial-gradient(ellipse at center, rgba(5, 6, 10, 0.55), rgba(5, 6, 10, 0.92));
+}
+#intro[hidden] { display: none; }
+#intro .card {
+  width: min(380px, 100%);
+  padding: 24px 20px;
+  border-radius: 20px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  text-align: center;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+#intro h1 { margin: 0 0 8px; font-size: 24px; letter-spacing: 0.04em; }
+#intro p { color: var(--muted); margin: 0 0 18px; }
+#intro button { display: block; width: 100%; margin: 8px 0; padding: 12px; }
+#intro .primary {
+  background: var(--accent);
+  color: #00151b;
+  border-color: transparent;
+  font-weight: 600;
+}
+#intro .small { font-size: 12px; margin: 14px 0 0; }
